@@ -20,19 +20,23 @@ namespace Compiler.Controllers
 
             return View();
         }
-        /*public JsonResult GetSearchValue(string search)
+        public IActionResult Scanner(string Input)
         {
-            match.Add("if");
-            match.Add("include");
-            match.Add("Slowf");
-            match.Add("Loli");
-            match.Add("Loopwhen");
-
-            List<String> allsearch = match.Where(x => x.Contains(search)).ToList();
-            return new JsonResult ( allsearch,JsonRequestBehavior.AllowGet );
+            return View();
         }
-        */
-    
+    /*public JsonResult GetSearchValue(string search)
+    {
+        match.Add("if");
+        match.Add("include");
+        match.Add("Slowf");
+        match.Add("Loli");
+        match.Add("Loopwhen");
+
+        List<String> allsearch = match.Where(x => x.Contains(search)).ToList();
+        return new JsonResult ( allsearch,JsonRequestBehavior.AllowGet );
+    }
+    */
+
 
     public IActionResult Privacy()
         {

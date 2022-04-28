@@ -15,7 +15,17 @@
 </head>
 <body>
 
-    <textarea id="editor"></textarea>
+
+    @using (Html.BeginForm("Scanner", "Home", FormMethod.Get))
+    {
+ 
+        @Html.TextBox("Input", null, new { @id = "editor"})
+    <center>
+        <input class="btn btn-success" type="submit" value="Scan" style="margin-top: 10px"/>
+    </center>
+   }
+
+
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
             mode: "xml",
@@ -43,6 +53,6 @@
 
 
     </script>
- 
+
 </body>
 </html>
