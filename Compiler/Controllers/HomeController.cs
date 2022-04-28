@@ -1,34 +1,40 @@
 ﻿using Compiler.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Compiler.Controllers
 {
     public class HomeController : Controller
     {
 
-       
-        private readonly ILogger<HomeController> _logger;
-      
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        List<string> match = new List<string>();
+     
 
-        public IActionResult Index()
+        public IActionResult Editor()
         {
 
 
             return View();
         }
-       
+        /*public JsonResult GetSearchValue(string search)
+        {
+            match.Add("if");
+            match.Add("include");
+            match.Add("Slowf");
+            match.Add("Loli");
+            match.Add("Loopwhen");
 
-        public IActionResult Privacy()
+            List<String> allsearch = match.Where(x => x.Contains(search)).ToList();
+            return new JsonResult ( allsearch,JsonRequestBehavior.AllowGet );
+        }
+        */
+    
+
+    public IActionResult Privacy()
         {
             return View();
         }
