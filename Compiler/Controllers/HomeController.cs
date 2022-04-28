@@ -20,6 +20,12 @@ namespace Compiler.Controllers
 
             return View();
         }
+        public IActionResult Scanner()
+        {
+
+
+            return View();
+        }
         /*public JsonResult GetSearchValue(string search)
         {
             match.Add("if");
@@ -32,9 +38,9 @@ namespace Compiler.Controllers
             return new JsonResult ( allsearch,JsonRequestBehavior.AllowGet );
         }
         */
-    
 
-    public IActionResult Privacy()
+
+        public IActionResult Privacy()
         {
             return View();
         }
