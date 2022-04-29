@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
 }
 <!Doctype html>
@@ -17,31 +18,48 @@
     <script src="~/codemirror/addon/edit/closetag.js"></script>
 </head>
 <body>
-    @using (Html.BeginForm("Scanner", "Home", FormMethod.Get))
+    @using (Html.BeginForm("Editor", "Home", FormMethod.Get))
     {
 
-      <textarea id="editor"></textarea>
-        <center>
-            <input class="btn btn-success" type="submit" value="Scan" style="margin-top: 10px" />
-        </center>
+        @Html.TextArea("key", "$$$This is an Editor.", new { @class = "form-control", @id = "editor" })
+        <div class="row"  style="margin-top: 20px">
+            <form asp-controller="Home" asp-action="ReadFile" enctype="multipart/form-data" method="post">
+                <div class="col-xs-12 col-sm-12 col-lg-3">
+                    <input type="file" name="file" />
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-1">
+                    <button class="btn btn-success" type="submit">Browse</button>
+                </div>
+
+            </form>
+
+
+            <div class="col-xs-12 col-sm-12 col-lg-1">
+                <input class="btn btn-success" type="submit" value="Scanner"  />
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-1">
+                <input class="btn btn-success" type="submit" value="Parser"  />
+            </div>
+        </div>
+
+
     }
-  
-    <textarea id="tags"></textarea>
     <script>
 
 
         var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
-            value: "function myScript(){return 100;}\n",
-            mode:"xml",
+            mode: "xml",
             theme: "dracula",
             lineNumbers: true,
             autoCloseTags: true,
-           
-           
+
+
+
         });
 
 
-        var availableKeywords = ['SIowf', 'Stop', 'SIow', 'Loopwhen','Loli','Iteratewhen','If','Else','Chain','Chilo','Iow','Include'];
+        var availableKeywords = ['SIowf', 'Stop', 'SIow', 'Loopwhen', 'Loli', 'Iteratewhen', 'If', 'Else', 'Chain', 'Chilo', 'Iow', 'Include', 'Iowf',
+            'Worthless', 'Turnback', "$$$", "/$ $/"];
         $("#editor").autocomplete({
             source: availableKeywords
         });
@@ -62,6 +80,6 @@
 
 
     </script>
-   
+
 </body>
 </html>
