@@ -6,69 +6,125 @@
 <html>
 <head>
 
-    <script src="~/codemirror/lib/codemirror.js"></script>
-    <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
-    <script src="~/codemirror/mode/xml/xml.js"></script>
-    <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
-    <link href="~/codemirror/theme/idea.css" rel="stylesheet" />
-    <script src="~/codemirror/addon/hint/show-hint.js"></script>
-    <link href="~/codemirror/addon/hint/show-hint.css" rel="stylesheet" />
-    <script src="~/codemirror/addon/hint/javascript-hint.js"></script>
-    <script src="~/codemirror/addon/edit/continuelist.js"></script>
-    <script src="~/codemirror/addon/edit/closetag.js"></script>
+
+
+    <link href="~/css/Editor.css" rel="stylesheet" />
+
+    <link href="~/lib/jquery-ui-1.13.1/jquery-ui.min.css" rel="stylesheet" />
+ 
 </head>
 <body>
-    @using (Html.BeginForm("Editor", "Home", FormMethod.Get))
-    {
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-8" style="margin-top:20px;margin-left:-80px;">
+            @using (Html.BeginForm("Editor", "Home", FormMethod.Get))
+            {
 
-        @Html.TextArea("key", "$$$This is an Editor.", new { @class = "form-control", @id = "editor" })
-        <div class="row"  style="margin-top: 20px">
-            <form asp-controller="Home" asp-action="ReadFile" enctype="multipart/form-data" method="post">
-                <div class="col-xs-12 col-sm-12 col-lg-3">
-                    <input type="file" name="file" />
+                <div class="thumbnail" style="box-shadow: gray 2px 2px;">
+                    <div class="row" style="height:580px">
+                        <div class="col-xs-12 col-sm-12 col-lg-12 ui-widget">
+                            <textarea id='lineCounter' readonly>1</textarea><textarea id='codeEditor'></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <form asp-controller="Home" asp-action="ReadFile" enctype="multipart/form-data" method="post">
+                            <div class="col-xs-12 col-sm-12 col-lg-4" style="margin-top:-40px;margin-left:60px">
+                                <input type="file" name="file" />
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-lg-2">
+                                <button class="btn btn-success" type="submit" style="margin-top:-80px">Browse</button>
+                            </div>
+
+                        </form>
+
+
+                        <div class="col-xs-12 col-sm-12 col-lg-2">
+                            <input class="btn btn-success" type="submit" value="Scanner" style="margin-top:-80px" />
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-lg-2">
+                            <input class="btn btn-success" type="submit" value="Parser" style="margin-top:-80px" />
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-lg-1">
-                    <button class="btn btn-success" type="submit">Browse</button>
+
+            }
+        </div>
+        <div class="col-xs-12 col-sm-12 col-lg-4" style="margin-top:20px;margin-left:30px;">
+            <div class="thumbnail" style="box-shadow: gray 2px 2px; height: 600px; width: 480px">
+                <div class="row" style="height: 300px; overflow-y:auto; overflow-x: auto;">
+                    <p id="out">Scanner Ouput:</p>
+
                 </div>
+                <hr />
+                <div class="row" style="; overflow-y: auto; overflow-x: auto;">
+                    <p id="out">Parser Ouput:</p>
 
-            </form>
 
-
-            <div class="col-xs-12 col-sm-12 col-lg-1">
-                <input class="btn btn-success" type="submit" value="Scanner"  />
-            </div>
-            <div class="col-xs-12 col-sm-12 col-lg-1">
-                <input class="btn btn-success" type="submit" value="Parser"  />
+                </div>
             </div>
         </div>
-
-
-    }
+    </div>
+    <br />
+@section Scripts{ 
+    <script src="~/lib/jquery-ui-1.13.1/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  
     <script>
 
-
-        var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
-            mode: "xml",
-            theme: "dracula",
-            lineNumbers: true,
-            autoCloseTags: true,
-
-
-
-        });
-
-
+        var codeEditor = document.getElementById('codeEditor');
+        var lineCounter = document.getElementById('lineCounter');
+        var line = 0;
         var availableKeywords = ['SIowf', 'Stop', 'SIow', 'Loopwhen', 'Loli', 'Iteratewhen', 'If', 'Else', 'Chain', 'Chilo', 'Iow', 'Include', 'Iowf',
-            'Worthless', 'Turnback', "$$$", "/$ $/"];
-        $("#editor").autocomplete({
-            source: availableKeywords
-        });
+            'Worthless', 'Turnback', "$$$", "/$ $/","Then"];
+        function split(val) {
+            return val.split(/( |\n)/)
+        }
+        function extractLast(term) {
+            return split(term).pop();
+        }
+  
+        $("#codeEditor")
+            // don't navigate away from the field on tab when selecting an item
+            .on("keydown", function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB &&
+                    $(this).autocomplete("instance").menu.active) {
+                    event.preventDefault();
+                }
+            })
+            .autocomplete({
+                minLength: 1,
+                source: function (request, response) {
+                    // delegate back to autocomplete, but extract the last term
+                    response($.ui.autocomplete.filter(
+                        availableKeywords, extractLast(request.term)));
+                },
+                focus: function () {
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function (event, ui) {
+                  
+                    var terms = split(this.value);
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                 
+                    terms.push(ui.item.value);
+
+                    terms.push("");
+                  
+                        this.value = terms.join("");
+
+                  
+                    return false;
+                }
+            });
 
         var documenteditor;
 
         document.addEventListener('DOMContentLoaded', function () {
 
-            documenteditor = document.getElementById("editor").ej2_instances[0];
+            documenteditor = document.getElementById("codeEditor").ej2_instances[0];
 
             documenteditor.spellChecker.languageID = 1033 //LCID of "en-us";
 
@@ -77,9 +133,42 @@
             documenteditor.spellChecker.allowSpellCheckAndSuggestion = true;
 
         });
+        var htmlTemplateStr = ""
 
+      
+
+
+
+        var lineCountCache = 0;
+        function line_counter() {
+            var lineCount = codeEditor.value.split('\n').length;
+            var outarr = new Array();
+            if (lineCountCache != lineCount) {
+                for (var x = 0; x < lineCount; x++) {
+                    outarr[x] = (x + 1);
+                }
+                lineCounter.value = outarr.join('\n');
+            }
+            lineCountCache = lineCount;
+        }
+
+
+
+        codeEditor.addEventListener('scroll', () => {
+            lineCounter.scrollTop = codeEditor.scrollTop;
+            lineCounter.scrollLeft = codeEditor.scrollLeft;
+        });
+
+
+
+        codeEditor.addEventListener('input', () => {
+            line_counter();
+        });
+
+        codeEditor.value = htmlTemplateStr;
+        line_counter();
 
     </script>
-
+}
 </body>
 </html>
