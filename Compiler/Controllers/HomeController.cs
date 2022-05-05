@@ -11,8 +11,9 @@ namespace Compiler.Controllers
 {
     public class HomeController : Controller
     {
-        private IHostingEnvironment _env;
-        public HomeController(IHostingEnvironment env)
+        private readonly IWebHostEnvironment _env;
+        
+        public HomeController(IWebHostEnvironment env)
         {
             _env = env;
         }
@@ -21,19 +22,36 @@ namespace Compiler.Controllers
         { 
             return View();
         }
-        public String ReadFile(IFormFile file)
+        [HttpPost]
+        public string Scanner(string str)
         {
-            //FileStream path = System.IO.File.Create(file.FileName);
+           var token =str;
+            return token;
+        }
+        [HttpPost]
+        public string Parser(string str)
+        {
+            var token =  str;
+            return token;
+        }
+        [HttpPost]
+        public string ReadFile()
+        {
             string Tokens = null;
-            if (file != null)
+            foreach (var formFile in Request.Form.Files)
             {
-                var dir = _env.ContentRootPath;
-                string path = Path.Combine(dir, file.FileName);
-                using (StreamReader r = new StreamReader(path))
+
+                var filePaths = new List<string>();
+                if (formFile != null)
                 {
-                    Tokens = r.ReadToEnd();
 
-
+                    var filePath = Path.GetTempFileName();
+                    filePaths.Add(filePath);
+                    using (var stream = formFile.OpenReadStream())
+                    using (var reader = new StreamReader(stream))
+                    {
+                        Tokens = reader.ReadToEnd();
+                    }
                 }
             }
             return Tokens;

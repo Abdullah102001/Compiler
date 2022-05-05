@@ -4,7 +4,7 @@
     font-size: 20px;
     font-weight: bold;
     color: dimgray;
-    text-align: center;
+   
     margin-left: 20px;
   
 }
@@ -56,7 +56,4 @@
 
 * html .ui-autocomplete {
     height: 100px;
-}
-.ui-autocomplete-loading {
-    background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
 }
