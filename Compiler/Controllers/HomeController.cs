@@ -1,4 +1,5 @@
 ﻿
+using ScannerS;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,8 +26,11 @@ namespace Compiler.Controllers
         [HttpPost]
         public string Scanner(string str)
         {
-           var token =str;
-            return token;
+            var tokens = "";
+            Scanner s = new Scanner();
+            ScannerS.Scanner.Code = str; 
+            tokens = s.Scanner1();
+            return tokens;
         }
         [HttpPost]
         public string Parser(string str)

@@ -6450,23 +6450,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mE\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\abdal\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mE\\Documents\\Level3Term2\\Compiler\\Project\\Compiler\\Compiler\\Compiler.csproj",
+      "projectUniqueName": "D:\\Universty\\level 3\\compiler\\Project\\Compiler\\Compiler\\Compiler.csproj",
       "projectName": "Compiler",
-      "projectPath": "C:\\Users\\mE\\Documents\\Level3Term2\\Compiler\\Project\\Compiler\\Compiler\\Compiler.csproj",
-      "packagesPath": "C:\\Users\\mE\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mE\\Documents\\Level3Term2\\Compiler\\Project\\Compiler\\Compiler\\obj\\",
+      "projectPath": "D:\\Universty\\level 3\\compiler\\Project\\Compiler\\Compiler\\Compiler.csproj",
+      "packagesPath": "C:\\Users\\abdal\\.nuget\\packages\\",
+      "outputPath": "D:\\Universty\\level 3\\compiler\\Project\\Compiler\\Compiler\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\mE\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\abdal\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6523,7 +6519,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   },

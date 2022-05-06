@@ -93,8 +93,6 @@
                     }
                    else if ($("#browse").data('clicked')) {
                         myData = Tokens;
-
-
                     }
                   
 
@@ -106,8 +104,6 @@
                         success: function (result) {
                             $("#OutScan").empty();
                             $("#OutScan").append(result);
-                           
-
                         }
 
                     })
