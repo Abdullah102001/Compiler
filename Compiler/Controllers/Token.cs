@@ -4,7 +4,7 @@ namespace ScannerS
     internal class Token
     {
         int LineNumber;
-        State.TOKENTYPE TokenType;
+        public State.TOKENTYPE TokenType;
         string TokenValue;
 
         public Token(int LineNumber, State.TOKENTYPE TokenType, string TokenValue)

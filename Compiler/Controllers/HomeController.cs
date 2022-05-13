@@ -23,6 +23,7 @@ namespace Compiler.Controllers
         { 
             return View();
         }
+
         [HttpPost]
         public string Scanner(string str)
         {
@@ -32,6 +33,7 @@ namespace Compiler.Controllers
             tokens = s.Scanner1();
             return tokens;
         }
+
         [HttpPost]
         public string Parser(string str)
         {

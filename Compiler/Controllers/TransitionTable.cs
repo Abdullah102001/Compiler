@@ -749,59 +749,7 @@ namespace ScannerS
                     }
                 }
                 return States[-1];
-                //if (CurrentState.StateNumber != 0 &&
-                //    IsOtherDelimiter(NextInput)
-                //    )
-                //{
-                //    var p = Scanner.Code[Scanner.i - 2];
-                //    var n = Scanner.Code[Scanner.i + 1];
-                //    if (IsAlphabet(p) == '1' || IsAlphabet(n) == '1')
-                //    {
-                //        NextInput = '@';
-
-                //    }
-
-                //}
-                //else if (CurrentState.StateNumber != 0)
-                //{
-                //    if (IsAlphabet(NextInput) == '1')
-                //    {
-                //        var x = Scanner.Code[Scanner.i - 2];
-                //        if (IsOtherDelimiter(x))
-                //        {
-                //            NextInput = '@';
-                //        }
-                //    }
-                //}
-                //NextInput = IsAlphabet(NextInput);
-                //NextInput = IsNumber(NextInput);
-                //if (!IsOtherDelimiter(Scanner.Code[Scanner.i - 1]))
-                //{
-                //    if (NextInput == '1')
-                //    {
-                //        return States[78];
-                //    }
-                //    else if (NextInput == '0')
-                //    {
-                //        return States[77];
-                //    } else if(IsAlphabet(Scanner.Code[Scanner.i - 2]) == '1')
-                //    {
-                //        Scanner.i--;
-                //        return States[78];
-                //    }
-                //    else if (IsNumber(Scanner.Code[Scanner.i - 2]) == '0')
-                //    {
-                //        Scanner.i--;
-                //        return States[77];
-                //    }
-                //} else
-                //{
-                //    State LastState = Scanner.State;
-                    
-                //}
-                //Scanner.i--;
-                //int NextState = TransitionStates[CurrentState.StateNumber][NextInput];
-                //return States[NextState];
+               
             }
         }
 
@@ -838,6 +786,7 @@ namespace ScannerS
             if (delimiter == ' ' ||
                 delimiter == ';' || 
                 delimiter == '\n' || 
+                delimiter == '\r' || 
                 (int)delimiter == 9||
                 delimiter == '\0')
             {
