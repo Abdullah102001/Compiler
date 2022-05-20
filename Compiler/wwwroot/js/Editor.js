@@ -181,3 +181,24 @@
 
             codeEditor.value = htmlTemplateStr;
             line_counter();
+
+            //Commment and Uncomment
+            $("#CommentBtn").click(function () {
+                var $txt = jQuery("#codeEditor");
+                var startpos = $txt[0].selectionStart;
+                var endpos = $txt[0].selectionEnd;
+                var textAreaTxt = $txt.val();
+                $txt.val(textAreaTxt.substring(0, startpos) + " /$ " + textAreaTxt.substring(startpos, endpos) + " $/ " + textAreaTxt.substring(endpos));
+            })
+
+            $("#UncommentBtn").click(function () {
+                var $txt = jQuery("#codeEditor");
+                var startpos = $txt[0].selectionStart;
+                var endpos = $txt[0].selectionEnd;
+                var textAreaTxt = $txt.val();
+                var selectedText = textAreaTxt.substring(startpos, endpos);
+                if (selectedText.includes("/$") && selectedText.includes("$/")) {
+                    var modifiedTxt = selectedText.replace("/$", "").replace("$/", "");
+                    $txt.val(textAreaTxt.substring(0, startpos) + modifiedTxt + textAreaTxt.substring(endpos));
+                }
+            })
