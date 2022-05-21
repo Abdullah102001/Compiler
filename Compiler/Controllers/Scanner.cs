@@ -4,22 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScannerS
+namespace Compiler
 {
-
 
     public class Scanner
     {
         static public string Code = "";
         static public State State = new State(0);
         static public int i = 0;
-        string TokenValue = "";
-        string LastInputString = "";
-        char NextChar;
-        List<Token> RightTokens = new List<Token>();
-        List<Token> WrongTokens = new List<Token>();
-        List<Token> ParseingTokens = new List<Token>();
-        public List<Token> Scanner1()
+        static string TokenValue = "";
+        static string LastInputString = "";
+        static char NextChar;
+        static List<Token> ParseingTokens = new List<Token>();
+        static List<string> right = new List<string>();
+
+        public static List<Token> Scan()
         {
             if (!TransitionTable.IsDelimiter(Code[Code.Length - 1]))
             {
@@ -39,47 +38,12 @@ namespace ScannerS
 
                 if (State.IsAcceptance)
                 {
-                    RightTokens.Add(new Token(
-                        GetLineNumber(LastInputString),
-                        State.TokenType,
-                        RemoveLastCharacter(TokenValue)));
                     ParseingTokens.Add(new Token(
                         GetLineNumber(LastInputString),
                         State.TokenType,
                         RemoveLastCharacter(TokenValue)));
-
-                    if (RemoveLastCharacter(TokenValue) == "$$$")
-                    {
-                        TokenValue = "";
-                        while (NextChar != '\n' && i < Code.Length)
-                        {
-                            NextChar = NextCharacter();
-                            TokenValue += NextChar;
-                            LastInputString += NextChar;
-                        }
-                        ParseingTokens.Add(new Token(
-                            GetLineNumber(LastInputString),
-                            State.TOKENTYPE.STR,
-                            RemoveLastCharacter(TokenValue)));
-                    }
-
-                    if (RemoveLastCharacter(TokenValue) == "/$")
-                    {
-                        TokenValue = "";
-                        while (NextChar != '$' && i < Code.Length)
-                        {
-                            NextChar = NextCharacter();
-                            TokenValue += NextChar;
-                            LastInputString += NextChar;
-                        }
-                        ParseingTokens.Add(new Token(
-                            GetLineNumber(LastInputString),
-                            State.TOKENTYPE.STR,
-                            RemoveLastCharacter(TokenValue)));
-                        i--;
-                    }
-
-
+                    AddCommentString(RemoveLastCharacter(TokenValue));
+                    right.Add(RemoveLastCharacter(TokenValue));
                     State = new State(0);
                     TokenValue = "";
 
@@ -91,10 +55,6 @@ namespace ScannerS
                         NextChar = NextCharacter();
                         TokenValue += NextChar;
                     }
-                    WrongTokens.Add(new Token(
-                        GetLineNumber(LastInputString),
-                        State.TOKENTYPE.ERROR,
-                        RemoveLastCharacter(TokenValue)));
                     ParseingTokens.Add(new Token(
                         GetLineNumber(LastInputString),
                         State.TokenType,
@@ -107,16 +67,59 @@ namespace ScannerS
             return RemoveDelimeters(ParseingTokens);
         }
 
-        private List<Token> RemoveDelimeters(List<Token> Tokens)
+        public static void PrepareScanner()
+        {
+            State = new State(0);
+            i = 0;
+            TokenValue = "";
+            LastInputString = "";
+            ParseingTokens.Clear();
+        }
+        private static void AddCommentString(string TokenValue)
+        {
+            if (TokenValue == "$$$")
+            {
+                TokenValue = "";
+                while (NextChar != '\n' && i < Code.Length)
+                {
+                    NextChar = NextCharacter();
+                    TokenValue += NextChar;
+                    LastInputString += NextChar;
+                }
+                ParseingTokens.Add(new Token(
+                    GetLineNumber(LastInputString),
+                    State.TOKENTYPE.STR,
+                    RemoveLastCharacter(TokenValue)));
+            }
+
+            if (TokenValue == "/$")
+            {
+                TokenValue = "";
+                while (NextChar != '$' && i < Code.Length)
+                {
+                    NextChar = NextCharacter();
+                    TokenValue += NextChar;
+                    LastInputString += NextChar;
+                }
+                ParseingTokens.Add(new Token(
+                    GetLineNumber(LastInputString),
+                    State.TOKENTYPE.STR,
+                    RemoveLastCharacter(TokenValue)));
+                i--;
+            }
+        }
+
+        private static List<Token> RemoveDelimeters(List<Token> Tokens)
         {
             for(int i = 0; i < Tokens.Count - 1; i++)
             {
-                if (Tokens[i].TokenType == State.TOKENTYPE.DELIMITER)
+                if (Tokens[i].TokenType == State.TOKENTYPE.DELIMITER ||
+                    Tokens[i].TokenType == State.TOKENTYPE.NULL )
                     Tokens.RemoveAt(i);
             }
             return Tokens;
         }
-        string RemoveLastCharacter(string TokenValue)
+        private static string RemoveLastCharacter(string TokenValue)
         {
             string NewToken = "";
             if (TokenValue.Length > 1)
@@ -133,7 +136,8 @@ namespace ScannerS
             }
 
         }
-        public int GetLineNumber(string LastInput)
+
+        private static int GetLineNumber(string LastInput)
         {
             int NumberOfLine = 1;
             for (int i = 0; i < LastInput.Length; i++)
@@ -144,24 +148,17 @@ namespace ScannerS
             return NumberOfLine;
         }
 
-        public char NextCharacter()
+        private static char NextCharacter()
         {
             return Code[i++];
         }
 
 
-        public void PrintTokens()
+        public List<string> Red_Line()
         {
-            Console.WriteLine("Right");
-            foreach (Token token in RightTokens)
-            {
-                Console.WriteLine(token.PrintToken());
-            }
-            Console.WriteLine("Error");
-            foreach (Token token in WrongTokens)
-            {
-                Console.WriteLine(token.PrintToken());
-            }
+            return right;
         }
+
+
     }
 }

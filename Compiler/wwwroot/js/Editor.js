@@ -75,37 +75,34 @@ $("#browse").click(function () {
 
 
 
-            $("#ScanData").click(function () {
-                $(this).data('clicked', true);
-                var myData = "";
-                if (document.getElementById("codeEditor").value.length != 0 || $("#browse").data('clicked')) {
-                    
-                     if (document.getElementById("codeEditor").value.length != 0) {
-                        myData = document.getElementById("codeEditor").value;
-                        
-                    }
-                   else if ($("#browse").data('clicked')) {
-                        myData = Tokens;
-                    }
+$("#ScanData").click(function () {
+    $(this).data('clicked', true);
+    var myData = "";
+    if (document.getElementById("codeEditor").value.length != 0 || $("#browse").data('clicked')) {               
+        if (document.getElementById("codeEditor").value.length != 0) {
+            myData = document.getElementById("codeEditor").value;                
+        }
+    else if ($("#browse").data('clicked')) {
+        myData = Tokens;
+    }
                   
 
-                    $.ajax({
-                        type: "POST",
-                        url: "/Home/Scanner",
-                        data: { str: myData },
+        $.ajax({
+            type: "POST",
+            url: "/Home/Scanner",
+            data: { str: myData },
+            success: function (result) {
+                $("#OutScan").empty();
+                $("#OutScan").append(result);
+            }
 
-                        success: function (result) {
-                            $("#OutScan").empty();
-                            $("#OutScan").append(result);
-                        }
-
-                    })
-                }
-                else {
-                    alert("Enter Your Code!");
-                }
-            });
-            $("#ParseData").click(function () {
+        })
+    }
+    else {
+        alert("Enter Your Code!");
+    }
+});
+$("#ParseData").click(function () {
                 $(this).data('clicked', true);
                 var myData = "";
                 if (document.getElementById("codeEditor").value.length != 0 || $("#browse").data('clicked')) {
@@ -142,41 +139,41 @@ $("#browse").click(function () {
 
           
 
-            var htmlTemplateStr = ""
+var htmlTemplateStr = ""
 
-            var codeEditor = document.getElementById('codeEditor');
-            var lineCounter = document.getElementById('lineCounter');
-            var lineCountCache = 0;
-            function line_counter() {
-                var lineCount = codeEditor.value.split('\n').length;
-                var outarr = new Array();
-                if (lineCountCache != lineCount) {
-                    for (var x = 0; x < lineCount; x++) {
-                        outarr[x] = (x + 1);
-                    }
-                    lineCounter.value = outarr.join('\n');
-                }
-                lineCountCache = lineCount;
-            }
-
-
-
-            codeEditor.addEventListener('scroll', () => {
-                lineCounter.scrollTop = codeEditor.scrollTop;
-                lineCounter.scrollLeft = codeEditor.scrollLeft;
-            });
+var codeEditor = document.getElementById('codeEditor');
+var lineCounter = document.getElementById('lineCounter');
+var lineCountCache = 0;
+function line_counter() {
+    var lineCount = codeEditor.value.split('\n').length;
+    var outarr = new Array();
+    if (lineCountCache != lineCount) {
+        for (var x = 0; x < lineCount; x++) {
+            outarr[x] = (x + 1);
+        }
+        lineCounter.value = outarr.join('\n');
+    }
+    lineCountCache = lineCount;
+}
 
 
 
-            codeEditor.addEventListener('input', () => {
-                line_counter();
-            });
-
-            codeEditor.value = htmlTemplateStr;
-           line_counter();
+codeEditor.addEventListener('scroll', () => {
+    lineCounter.scrollTop = codeEditor.scrollTop;
+    lineCounter.scrollLeft = codeEditor.scrollLeft;
+});
 
 
-$("#codeEditor").on("mouseleave", function () {
+
+codeEditor.addEventListener('input', () => {
+    line_counter();
+});
+
+codeEditor.value = htmlTemplateStr;
+line_counter();
+
+
+$("#codeEditor").on("change", function () {
     var myData = document.getElementById("codeEditor").value;
     var splitData = split(myData);
   
@@ -295,4 +292,48 @@ $("#UncommentBtn").click(function () {
     }
 });
 
+
+function getTheWord2(selectionStart, value) {
+    let arr = value.split("\n");
+    let sum = 0
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i].length + 1
+        if (sum > selectionStart) return arr[i]
+
+    }
+}
+$("#codeEditor").click(function (e) {
+    if (e.altKey) { //Alt + click
+        let i = e.currentTarget.selectionStart
+        let wordInput = getTheWord2(i, this.value);
+        alert(wordInput);
+        var selected = document.getElementById("codeEditor").value.substr(0, document.getElementById("codeEditor").value.selectionStart).split("\n").length;
+        if (String(wordInput).startsWith("$$$")) {
+            var newText = document.getElementById("codeEditor").value.replace(String(wordInput), String(wordInput).substring(3));
+            document.getElementById("codeEditor").value = newText;
+        }
+        else {
+            var newText = document.getElementById("codeEditor").value.replace(String(wordInput), "$$$$$$".concat(wordInput));
+            document.getElementById("codeEditor").value = newText;
+        }
+    }
+});
+
+log = document.querySelector('#codeEditor');
+document.addEventListener('click', multiComment);
+function multiComment(e) {//Ctrl + click
+
+    if (e.ctrlKey) {
+        let i = e.currentTarget.selectionStart
+        var selected = document.getElementById("codeEditor").value.substring(jQuery("#codeEditor")[0].selectionStart, jQuery("#codeEditor")[0].selectionEnd);
+        if (String(selected).startsWith("/$") && String(selected).endsWith("$/")) {
+            var newText = document.getElementById("codeEditor").value.replace(String(selected), String(selected).substring(2, selected.length - 2));
+            document.getElementById("codeEditor").value = newText;
+        }
+        else {
+            var newText = document.getElementById("codeEditor").value.replace(String(selected), "/$" + selected + "$/");
+            document.getElementById("codeEditor").value = newText;
+        }
+    }
+}
 

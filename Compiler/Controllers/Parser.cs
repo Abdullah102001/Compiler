@@ -4,39 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScannerS
+namespace Compiler
 {
     class Parser
     {
         List<Token> InputTokens;
-        ParserStack<TerminalAndNonTerminal> stack;
-        Token NextToken;
+        ParserStack<TerminalAndNonTerminal> ParseStack;
+        
         ParserStack<GrammerSeq> GrammerStack;
         List<GrammerSeq> ParseResult = new List<GrammerSeq>();
         public Parser(List<Token> InputTokens)
         {
-            this.InputTokens = InputTokens;
-            stack = new ParserStack<TerminalAndNonTerminal>();
-            GrammerStack = new ParserStack<GrammerSeq>();
-            InputTokens.Add(new Token(-1, State.TOKENTYPE.NULL, "$")); ;
-            stack.Push(new TerminalAndNonTerminal("$",true));
-            stack.Push(new TerminalAndNonTerminal(ParserTable.NonTerminals.Program));
+            this.InputTokens = PrepareInputTokens(InputTokens);
+            PrepareParseStack();
+            PrepareGrammerStack();
         }
-
 
         public List<GrammerSeq> Parse()
         {
-            TerminalAndNonTerminal PopedItem = stack.Pop(); 
+            TerminalAndNonTerminal PopedItem = ParseStack.Pop();
+            Token NextToken;
             while (PopedItem.ExpressionBody.ToString() != "$")
-            {
-                
+            {  
                 try 
                 {
                     NextToken = GetNextToken();
                 } 
                 catch(Exception e)
                 {
-                    Error();
                     break;
                 }
                 if (PopedItem.IsTerminal)
@@ -45,16 +40,16 @@ namespace ScannerS
                         PopedItem.ExpressionBody.ToString() == NextToken.TokenType.ToString())
                     {
                         RemoveToken();
-                        PopedItem = stack.Pop();
+                        PopedItem = ParseStack.Pop();
                         if(PopedItem.ExpressionBody.ToString() == "@")
                         {
                             ParseResult.Add(GrammerStack.Pop());
-                            PopedItem = stack.Pop();
+                            PopedItem = ParseStack.Pop();
                             if (PopedItem.ExpressionBody.ToString() != GetNextToken().TokenValue)
                             {
-                                stack.Push(new TerminalAndNonTerminal("$", true));
-                                stack.Push(new TerminalAndNonTerminal(ParserTable.NonTerminals.Program));
-                                PopedItem = stack.Pop();
+                                ParseStack.Push(new TerminalAndNonTerminal("$", true));
+                                ParseStack.Push(new TerminalAndNonTerminal(ParserTable.NonTerminals.Program));
+                                PopedItem = ParseStack.Pop();
                                 continue;
                             }
                         }
@@ -63,7 +58,7 @@ namespace ScannerS
                     }
                     else
                     {
-                        Error();
+                        Error(NextToken);
                     }
                 }
                 else
@@ -71,44 +66,64 @@ namespace ScannerS
                     GrammerStack.Push(new GrammerSeq(NextToken.LineNumber,(ParserTable.NonTerminals)PopedItem.ExpressionBody));
                     try
                     {
-                        Expression TargetExpression = ParserTable.TransitionStates[(ParserTable.NonTerminals)PopedItem.ExpressionBody][NextToken.TokenValue];
-                        ReplaceExpression(ref stack, TargetExpression);
-                    } catch (NullReferenceException e)
+                        Expression TargetExpression = ParserTable.TransitionExprission[(ParserTable.NonTerminals)PopedItem.ExpressionBody][NextToken.TokenValue];
+                        ReplaceExpression(ParseStack, TargetExpression);
+                    } catch (Exception e)
                     {
-                        Error();
+                        Error(NextToken);
                     }
                 }
-                PopedItem = stack.Pop();
+                PopedItem = ParseStack.Pop();
             }
             return ParseResult;
         }
-        public void ReplaceExpression(ref ParserStack<TerminalAndNonTerminal> stack,Expression TargetExpression)
+        private void ReplaceExpression(ParserStack<TerminalAndNonTerminal> ParseStack,Expression TargetExpression)
         {
             for(int i = TargetExpression.ExepressionStatement.Count - 1; i >=0; i--)
             {
-                stack.Push(TargetExpression.ExepressionStatement[i]);
+                ParseStack.Push(TargetExpression.ExepressionStatement[i]);
             }
         }
 
-        private void Error()
+        private void Error(Token NextToken)
         {
-            Console.WriteLine("Error");
+            ParseResult.Add(new GrammerSeq(NextToken.LineNumber,
+                ParserTable.NonTerminals.Erorr));
         }
-        public Token GetNextToken()
+        private Token GetNextToken()
         {
             return InputTokens[0];
         }
 
-        public void RemoveToken()
+        private void RemoveToken()
         {
             InputTokens.RemoveAt(0);
         }
+
+
+        private void PrepareParseStack()
+        {
+            ParseStack = new ParserStack<TerminalAndNonTerminal>();
+            ParseStack.Push(new TerminalAndNonTerminal("$", true));
+            ParseStack.Push(new TerminalAndNonTerminal(ParserTable.NonTerminals.Program));
+        }
+        private void PrepareGrammerStack()
+        {
+            GrammerStack = new ParserStack<GrammerSeq>();
+        }
+
+        private List<Token> PrepareInputTokens(List<Token> InputTokens)
+        {
+            InputTokens.Add(new Token(-1, State.TOKENTYPE.NULL, "$"));
+            return InputTokens;
+        }
+
     }
 
 
-    
-   
 
-    
-    
+
+
+
+
 }

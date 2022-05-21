@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScannerS
+namespace Compiler
 {
     public class ParserTable
     {
@@ -59,10 +59,12 @@ namespace ScannerS
             Value,
             Comment,
             Include_command,
-            F_name
+            F_name,
+            Erorr,
         }
 
-        public static Dictionary<NonTerminals, Dictionary<string, Expression>> TransitionStates =
+
+        public static Dictionary<NonTerminals, Dictionary<string, Expression>> TransitionExprission =
             new Dictionary<NonTerminals, Dictionary<string, Expression>>()
             {
                 {
@@ -76,7 +78,7 @@ namespace ScannerS
                                     {
                                         new TerminalAndNonTerminal(NonTerminals.Comment),
                                     })
-                        }
+                        },
                     }
                 },
                 {
@@ -99,5 +101,6 @@ namespace ScannerS
                     }
                 }
             };
+
     }
 }

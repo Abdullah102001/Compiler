@@ -1,5 +1,4 @@
-﻿
-using ScannerS;
+﻿using Compiler;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,20 +26,20 @@ namespace Compiler.Controllers
         [HttpPost]
         public string Scanner(string str)
         {
+            Compiler.Scanner.PrepareScanner();
             List<Token> tokens;
-            Scanner scanner = new Scanner();
-            ScannerS.Scanner.Code = str; 
-            tokens = scanner.Scanner1();
+            Compiler.Scanner.Code = str; 
+            tokens = Compiler.Scanner.Scan();     
             return PrintTokens(tokens);
         }
 
         [HttpPost]
         public string Parser(string str)
         {
+            Compiler.Scanner.PrepareScanner();
             List<Token> tokens;
-            Scanner scanner = new Scanner();
-            ScannerS.Scanner.Code = str;
-            tokens = scanner.Scanner1();
+            Compiler.Scanner.Code = str;
+            tokens = Compiler.Scanner.Scan();
             Parser parser = new Parser(tokens);
             List<GrammerSeq> grammerResult = new List<GrammerSeq>();
             grammerResult = parser.Parse();
@@ -99,13 +98,8 @@ namespace Compiler.Controllers
         [HttpPost]
         public List<string> RedLine(String str)
         {
-            
-            string r="";
-            //Scanner s = new Scanner();
-            //ScannerS.Scanner.Code = str;
-            //s.Scanner1();
-            //Righttokens = s.Red_Line();
 
+            
             return Righttokens;
 
         }

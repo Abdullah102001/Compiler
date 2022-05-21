@@ -1650,6 +1650,15 @@ C:\Users\mE\Documents\Compiler\Compiler\obj\Debug\net5.0\ref\Compiler.dll
 C:\Users\mE\Documents\Compiler\Compiler\obj\Debug\net5.0\Compiler.pdb
 C:\Users\mE\Documents\Compiler\Compiler\obj\Debug\net5.0\Compiler.genruntimeconfig.cache
 C:\Users\mE\Documents\Level3Term2\Compiler\Project\Compiler\Compiler\obj\Debug\net5.0\Compiler.csproj.AssemblyReference.cache
+D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.csproj.AssemblyReference.cache
+D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.GeneratedMSBuildEditorConfig.editorconfig
+D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.AssemblyInfoInputs.cache
+D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.AssemblyInfo.cs
+D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.csproj.CoreCompileInputs.cache
+D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.MvcApplicationPartsAssemblyInfo.cs
+D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.MvcApplicationPartsAssemblyInfo.cache
+D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.RazorAssemblyInfo.cache
+D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.RazorAssemblyInfo.cs
 D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\bin\Debug\net5.0\appsettings.Development.json
 D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\bin\Debug\net5.0\appsettings.json
 D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\bin\Debug\net5.0\Compiler.StaticWebAssets.xml
@@ -2030,15 +2039,6 @@ D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\bin\Debug\net
 D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\bin\Debug\net5.0\runtimes\win-arm\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
-D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.csproj.AssemblyReference.cache
-D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.GeneratedMSBuildEditorConfig.editorconfig
-D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.AssemblyInfoInputs.cache
-D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.AssemblyInfo.cs
-D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.csproj.CoreCompileInputs.cache
-D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.MvcApplicationPartsAssemblyInfo.cs
-D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.MvcApplicationPartsAssemblyInfo.cache
-D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.RazorAssemblyInfo.cache
-D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.RazorAssemblyInfo.cs
 D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\scopedcss\bundle\Compiler.styles.css
 D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\staticwebassets\Compiler.StaticWebAssets.Manifest.cache
 D:\Universty\level 3\compiler\Project\New folder\Compiler\Compiler\obj\Debug\net5.0\Compiler.TagHelpers.input.cache

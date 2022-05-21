@@ -1,5 +1,5 @@
 ﻿
-namespace ScannerS
+namespace Compiler
 {
     public class Token
     {

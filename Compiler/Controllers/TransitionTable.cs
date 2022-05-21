@@ -7,14 +7,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace ScannerS
+namespace Compiler
 {
-    public class TransitionTable
+    public class TransitionTable : Validation
     {
         private static Dictionary<int,State> States = new Dictionary<int, State>()
         {
             {-2 , new State(-2,true,State.TOKENTYPE.DELIMITER)},
-            { -1 , new State(-1)},
+            { -1 , new State(-1,false,State.TOKENTYPE.ERROR)},
             { 0 , new State(0)},
             { 1 , new State(1)},
             { 2 , new State(2)},
@@ -98,7 +98,7 @@ namespace ScannerS
             { 80 , new State(80)},
             { 81 , new State(81,true,State.TOKENTYPE.CONSTANT)},
             { 82 , new State(82)},
-            { 83 , new State(83,true,State.TOKENTYPE.RELATIONALOPERATION)},
+            { 83 , new State(83,true,State.TOKENTYPE.ASSIGNMENTOPERATION)},
             { 84 , new State(84)},
             { 85 , new State(85)},
             { 86 , new State(86,true,State.TOKENTYPE.RELATIONALOPERATION)},
@@ -595,15 +595,12 @@ namespace ScannerS
         {
             try
             {
-                NextInput = GetDelimiterSymbol(NextInput);  
-                if(NextInput == '1')
-                {
-                    NextInput = '0';
-                }
-                
+                NextInput = GetDelimiterSymbol(NextInput);
+                NextInput = SetDigitSymbol(NextInput);
                 int NextState = TransitionStates[CurrentState.StateNumber][NextInput];
                 return States[NextState];
-            } catch (Exception e)
+            } 
+            catch (Exception e)
             {
                 NextInput = IsNumber(NextInput);
                 NextInput = IsAlphabet(NextInput);
@@ -618,7 +615,6 @@ namespace ScannerS
                         int NextState = TransitionStates[CurrentState.StateNumber][NextInput];
                         return States[NextState];
                     }
-
                 }           
                 char PreChar = Scanner.Code[Scanner.i - 2];
                 //Letter
@@ -627,7 +623,8 @@ namespace ScannerS
                     if(IsAlphabet(PreChar) == '1')
                     {
                         return States[78];
-                    } else if(IsOtherDelimiter(PreChar))
+                    } 
+                    else if(IsOtherDelimiter(PreChar))
                     {
                         NextInput = '@';
                         Scanner.i--;
@@ -639,7 +636,8 @@ namespace ScannerS
                         {
                             return States[-1];
                         }
-                    } else
+                    } 
+                    else
                     {
                         return States[-1];
                     }
@@ -714,7 +712,8 @@ namespace ScannerS
                             return States[-1];
                         }
                     }
-                } else if(NextInput == '@')
+                } 
+                else if(NextInput == '@')
                 {
                     if (IsAlphabet(PreChar) == '1')
                     {
@@ -749,70 +748,8 @@ namespace ScannerS
                     }
                 }
                 return States[-1];
-               
             }
         }
 
-        public static char GetDelimiterSymbol(char delimiter)
-        {
-            if(IsDelimiter(delimiter))
-            {
-                return '@';
-            }
-            return delimiter;
-        }
-
-        public static char IsAlphabet(char character)
-        {
-            int ASSCIICode = (int)character;
-            if ((ASSCIICode >= 65 && ASSCIICode <= 90) ||
-                (ASSCIICode >= 97 && ASSCIICode <= 122) ||
-                ASSCIICode == 95)
-                return '1';
-            else
-                return character;
-        }
-
-        public static char IsNumber(char character)
-        {
-            int ASSCIICode = (int)character;
-            if (ASSCIICode >= 48 && ASSCIICode <= 57)
-                return '0';
-            else
-                return character;
-        }
-        public static bool IsDelimiter(char delimiter)
-        {
-            if (delimiter == ' ' ||
-                delimiter == ';' || 
-                delimiter == '\n' || 
-                delimiter == '\r' || 
-                (int)delimiter == 9||
-                delimiter == '\0')
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool IsOtherDelimiter(char delimiter)
-        {
-            if (delimiter == '+'|| delimiter == '-' ||
-                delimiter == '*' || delimiter == '/'|| 
-                delimiter == '{' || delimiter == '}' ||
-                delimiter == '[' || delimiter == ']'||
-                delimiter == '(' || delimiter == ')' ||
-                delimiter == '/' || delimiter == '&' ||
-                delimiter == '|' || delimiter == '<' ||
-                delimiter == '>' || delimiter == '!' ||
-                delimiter == '~' || delimiter == '"' ||
-                delimiter == '\'' || delimiter == '=' ||
-                delimiter == ',' || delimiter == '$')
-                return true;
-            return false;
-        }
-
-    
-
-
-}
+    }
 }
