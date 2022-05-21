@@ -13,7 +13,7 @@ namespace Compiler.Controllers
     public class HomeController : Controller
     {
         private readonly IWebHostEnvironment _env;
-        
+        List<string> Righttokens = new List<string>();
         public HomeController(IWebHostEnvironment env)
         {
             _env = env;
@@ -63,7 +63,19 @@ namespace Compiler.Controllers
             return Tokens;
         }
         
-       
+        [HttpPost]
+        public List<string> RedLine(String str)
+        {
+
+            string r="";
+            Scanner s = new Scanner();
+            ScannerS.Scanner.Code = str;
+            s.Scanner1();
+            Righttokens = s.Red_Line();
+
+            return Righttokens;
+
+        }
 
     }
 }

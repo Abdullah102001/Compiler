@@ -18,7 +18,14 @@ namespace ScannerS
         char NextChar;
         List<Token> RightTokens = new List<Token>();
         List<Token> WrongTokens = new List<Token>();
-        
+        List<string> right = new List<string>();
+
+        public List<string> Red_Line()
+        {
+
+            return right;
+           
+        }
         public string Scanner1()
         {
             if (!TransitionTable.IsDelimiter(Code[Code.Length-1]))
@@ -43,6 +50,7 @@ namespace ScannerS
                         GetLineNumber(LastInputString),
                         State.TokenType,
                         RemoveLastCharacter(TokenValue)));
+                    right.Add(RemoveLastCharacter(TokenValue));
                     State = new State(0);
                     TokenValue = "";
                 } 
@@ -52,6 +60,7 @@ namespace ScannerS
                         GetLineNumber(LastInputString),
                         State.TokenType,
                         RemoveLastCharacter(TokenValue)));
+                    right.Add(RemoveLastCharacter(TokenValue));
                     State = new State(0);
                     TokenValue = "";
                 }
@@ -67,6 +76,7 @@ namespace ScannerS
                         GetLineNumber(LastInputString),
                         State.TOKENTYPE.ERROR,
                         RemoveLastCharacter(TokenValue)));
+                   
                     State = new State(0);
                     TokenValue = "";
                 }

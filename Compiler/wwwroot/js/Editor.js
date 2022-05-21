@@ -9,7 +9,7 @@
                 return split(term).pop();
             }
 
-            $("#codeEditor")
+           $("#codeEditor")
                 // don't navigate away from the field on tab when selecting an item
                 .on("keydown", function (event) {
                     if (event.keyCode === $.ui.keyCode.TAB &&
@@ -180,4 +180,107 @@
             });
 
             codeEditor.value = htmlTemplateStr;
-            line_counter();
+           line_counter();
+
+
+$("#codeEditor").on("mouseleave", function () {
+    var myData = document.getElementById("codeEditor").value;
+    var splitData = split(myData);
+  
+    $.ajax({
+        type: "POST",
+        url: "/Home/RedLine",
+        data: {
+            str: myData
+        } ,
+        success: function (tokens) {
+          
+            for (var j = 0; j < splitData.length; j++) {
+                
+                for (var i = 0; i < tokens.length; i++) {
+
+
+                    if (tokens[i] == splitData[j] ) {
+
+                        splitData.splice(j, 1);
+                      
+
+                    }
+                    if (splitData[j] == " " || splitData[j] == "\n") {
+                        splitData.splice(j, 1);
+                    }
+                 
+                }
+              
+            }
+
+            if (splitData.length == 0) {
+                $("#codeEditor").removeClass('red');
+                    $("#codeEditor").addClass('right');
+                   
+                }
+            else {
+                $("#codeEditor").removeClass('right');
+                    $("#codeEditor").addClass('red');
+              
+                }
+
+     
+            }
+        })
+
+});
+
+
+
+function getTheWord(selectionStart, value) {
+    let arr = value.trim().split(/\s+/);
+    let sum = 0
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i].length + 1
+        if (sum > selectionStart) return arr[i]
+    }
+}
+var definations = [];
+var functionReturnType = ['SIowf', 'SIow', 'Chain', 'Chilo', 'Iow', 'Iowf', 'Worthless', "int"];
+//Store Functions Definations
+$("#codeEditor").keypress(function () {
+    var terms = split(this.value);// SIoff x (
+    var item = terms.pop();
+    let name = "";
+    let returnType = "";
+    if (item == "(") { // SIoff x
+        terms.pop(); // SIoff x
+        name = terms.pop();// SIoff
+        terms.pop();
+
+
+
+        returnType = terms.pop();// SIoff
+        functionReturnType.forEach(item => {
+            if (returnType == item) {
+                line_counter();
+                var lineCounter = document.getElementById('lineCounter').value.split('\n').length;
+                definations.push([String(name), String(returnType), String(lineCounter)]);
+            }
+        })
+    }
+});
+$("#codeEditor").dblclick(function (e) {
+    let i = e.currentTarget.selectionStart
+    let wordInput = getTheWord(i, this.value);
+   
+    definations.forEach(item => {
+        let name = item[0];
+        if (name.localeCompare(wordInput) == 0) {
+            var codeEditor = document.getElementById("codeEditor");
+            var lineHeight = codeEditor.clientHeight / codeEditor.rows;
+            var jump = Number(item[2] - 1) * 18;
+            codeEditor.scrollTop = jump;
+        }
+    })
+});
+
+
+
+
