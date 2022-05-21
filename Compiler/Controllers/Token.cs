@@ -1,11 +1,11 @@
 ﻿
 namespace ScannerS
 {
-    internal class Token
+    public class Token
     {
-        int LineNumber;
+        public int LineNumber;
         public State.TOKENTYPE TokenType;
-        string TokenValue;
+        public string TokenValue;
 
         public Token(int LineNumber, State.TOKENTYPE TokenType, string TokenValue)
         {

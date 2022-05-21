@@ -37,6 +37,7 @@ namespace ScannerS
             ERROR,
             DELIMITER,
             COMMA,
+            STR,
         }
 
         public int StateNumber;
